@@ -77,15 +77,19 @@ def _do_create_strip(args):
 def create_strip(sampleType, source):
     """Build up the strip from the extracted frames"""
     i = 1
-    while True:
-        file = source % i
-        if not os.path.isfile(file):
-            break
-        i = i + 1
+    if sampleType['lastFrame']:
+        i = sampleType['lastFrame']
+    else:
+        while True:
+            file = source % i
+            if not os.path.isfile(file):
+                break
+            i = i + 1
 
+    firstFrame = sampleType['firstFrame'] if sampleType['firstFrame'] else 1
     with Pool(POOL_SIZE) as p:
         data = p.map(_do_create_strip, [
-                     {'i': x, 'sampleType': sampleType, 'source': source} for x in range(1, i)])
+                     {'i': x, 'sampleType': sampleType, 'source': source} for x in range(firstFrame, i)])
 
     sampleSize = sampleType['sampleSize']
 
@@ -175,6 +179,18 @@ def main():
         action='store_true',
         help='Skip the extract step and reuse existing frames?')
 
+    parser.add_argument(
+        '--firstFrame',
+        dest='firstFrame',
+        type=int,
+        help='Begin processing at this frame number')
+
+    parser.add_argument(
+        '--lastFrame',
+        dest='lastFrame',
+        type=int,
+        help='Only process frames up to this frame number')
+
     args = parser.parse_args()
 
     framedir = SCRATCH_DIR_NAME
@@ -187,7 +203,9 @@ def main():
         {
             "location": args.location,
             "flipSample": args.flipSample,
-            "sampleSize": args.sampleSize
+            "sampleSize": args.sampleSize,
+            "lastFrame": args.lastFrame,
+            "firstFrame": args.firstFrame
         },
         args.video,
         framedir,

@@ -45,5 +45,7 @@ $ python main.py "redwing-apache37257.mp4" --start 00:00:08.4 --end 00:01:16.6 -
 * `--flipSample` — Sample rows instead of columns.
 * `--sampleSize 10` — Width of pixels to grab from each column or row
 * `--skipExtract` — Skips the frame extract stage and reuse the existing cache of frames. 
+* `--firstFrame` — First frame number (relative to extracted frames) to start sampling from. Defaults to 1.
+* `--lastFrame` — Last frame number (relative to extracted frames) to end sampling. Defaults to end of film.
 
 [post]: https://blog.mattbierner.com/nuke-scan
