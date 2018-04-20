@@ -1,3 +1,5 @@
+![](teapot-turk28141-2.png)
+
 # Nuke Scan
 
 Scripts used for [Nuke Scan][post]
@@ -25,7 +27,7 @@ The default samples a column of pixels at the center of the video. To sample a d
 python main.py "redwing-apache37257.mp4" --out out.png --location 0.3
 ```
 
-`location` is percent location to sample from. For a video that is 1920 pixels wide for example, `--location 0.3` will sample from the `1940 * 0.3 = 640` column of pixels in each frame.
+`location` is percent location to sample from. For a video that is 1920 pixels wide for example, `--location 0.3` will sample from the `1920 * 0.3 = 640` column of pixels in each frame.
 
 To sample from just part of a video, use pass ffmpeg timestamps to `--start` and `--end`:
 
